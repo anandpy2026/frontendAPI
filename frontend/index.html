@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>Insurance User Management</title>
+    <script src="js/user.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -232,12 +233,49 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-users me-2"></i>User Management System
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-shield-alt me-2"></i>Insurance Manager
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <i class="fas fa-user me-2"></i>User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="customer.html">
+                            <i class="fas fa-users me-2"></i>Customer
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agent.html">
+                            <i class="fas fa-user-tie me-2"></i>Agent
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="insurancecompany.html">
+                            <i class="fas fa-building me-2"></i>Company
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h me-2"></i>More
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="insurancetype.html">Insurance Type</a></li>
+                            <li><a class="dropdown-item" href="plan.html">Plan</a></li>
+                            <li><a class="dropdown-item" href="policy.html">Policy</a></li>
+                            <li><a class="dropdown-item" href="customerpolicy.html">Customer Policy</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" ng-click="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout ({{ userData.name }})</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -248,30 +286,30 @@
         </h1>
 
         <!-- Add User Form -->
-        <div class="card mb-4">
+        <div class="card mb-4" style="max-width: 100%;">
             <div class="card-header">
                 <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Add New User</h5>
             </div>
             <div class="card-body">
-                <form ng-submit="addUser()" class="row g-3">
-                    <div class="col-md-6">
-                        <label for="name" class="form-label"><i class="fas fa-user me-2"></i>Name</label>
-                        <input type="text" class="form-control" id="name" ng-model="newUser.name" placeholder="Enter full name" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="email" class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
-                        <input type="email" class="form-control" id="email" ng-model="newUser.email" placeholder="Enter email address" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="phone" class="form-label"><i class="fas fa-phone me-2"></i>Phone</label>
-                        <input type="tel" class="form-control" id="phone" ng-model="newUser.phone" placeholder="Enter phone number">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="address" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Address</label>
-                        <input type="text" class="form-control" id="address" ng-model="newUser.address" placeholder="Enter address">
+                <form ng-submit="addUser()" class="row g-4">
+                    <div class="col-12">
+                        <label for="name" class="form-label"><i class="fas fa-user me-2"></i>Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg" id="name" ng-model="newUser.name" placeholder="Enter full name" required>
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
+                        <label for="email" class="form-label"><i class="fas fa-envelope me-2"></i>Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control form-control-lg" id="email" ng-model="newUser.email" placeholder="Enter email address" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="phone" class="form-label"><i class="fas fa-phone me-2"></i>Phone</label>
+                        <input type="tel" class="form-control form-control-lg" id="phone" ng-model="newUser.phone" placeholder="Enter phone number">
+                    </div>
+                    <div class="col-12">
+                        <label for="password" class="form-label"><i class="fas fa-lock me-2"></i>Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control form-control-lg" id="password" ng-model="newUser.password" placeholder="Enter password" required>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-plus-circle me-2"></i>Add User
                         </button>
                     </div>
@@ -344,10 +382,34 @@
 
     <script>
         angular.module('userApp', [])
-            .controller('UserController', function($scope, $http) {
+            .controller('UserController', function($scope, $http, $window) {
                 $scope.users = [];
                 $scope.newUser = {};
+                $scope.userData = {};
                 const API_URL = 'http://127.0.0.1:8000/api/user/';
+
+                // Check if user is logged in
+                $scope.checkLogin = function() {
+                    var userData = sessionStorage.getItem('userData');
+                    if (!userData) {
+                        // Check localStorage for remember me
+                        userData = localStorage.getItem('userData');
+                        if (!userData) {
+                            $window.location.href = '../login.html';
+                            return;
+                        }
+                    }
+                    $scope.userData = JSON.parse(userData);
+                };
+
+                // Logout
+                $scope.logout = function() {
+                    if (confirm('Are you sure you want to logout?')) {
+                        sessionStorage.removeItem('userData');
+                        localStorage.removeItem('userData');
+                        $window.location.href = '../login.html';
+                    }
+                };
 
                 // Load users
                 $scope.loadUsers = function() {
@@ -363,8 +425,8 @@
 
                 // Add user
                 $scope.addUser = function() {
-                    if (!$scope.newUser.name || !$scope.newUser.email) {
-                        alert('Name and Email are required');
+                    if (!$scope.newUser.name || !$scope.newUser.email || !$scope.newUser.password) {
+                        alert('Name, Email, and Password are required');
                         return;
                     }
                     $http.post(API_URL, $scope.newUser)
@@ -397,6 +459,10 @@
                         phone: user.phone,
                         address: user.address
                     };
+                    // Only include password if it was changed
+                    if (user.password && user.password !== user.original.password) {
+                        updateData.password = user.password;
+                    }
                     $http.put(API_URL + user.id + '/', updateData)
                         .then(function(response) {
                             user.editing = false;
@@ -432,7 +498,8 @@
                     }
                 };
 
-                // Initial load
+                // Initialize
+                $scope.checkLogin();
                 $scope.loadUsers();
             });
     </script>
